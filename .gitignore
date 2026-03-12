@@ -46,9 +46,6 @@ yarn-error.log*
 *.temp
 .cache/
 
-# Datos OSRM (archivos grandes)
-osrm_data/
-
 # Archivos de prueba
 coverage/
 .nyc_output/
@@ -85,8 +82,4 @@ backend/data/routes_json/
 # Archivos de rutas maestro
 backend/data/rutas/
 
-# Scripts utilitarios / operacionales
-iniciar-docker.ps1
-detener-docker.ps1
-backend/generar_instructivos_pdf.py
 

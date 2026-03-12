@@ -1,0 +1,261 @@
+/* Overlay del Modal */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  backdrop-filter: blur(2px);
+}
+
+/* Contenedor del Modal - Tamaños estandarizados */
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modal.small {
+  width: 90%;
+  max-width: 420px;
+}
+
+.modal.medium {
+  width: 90%;
+  max-width: 550px;
+}
+
+.modal.large {
+  width: 90%;
+  max-width: 700px;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Título del Modal */
+.modalTitle {
+  margin: 0 0 16px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+/* Contenido del Modal */
+.modalContent {
+  margin-bottom: 24px;
+}
+
+.modalMessage {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0;
+  text-align: center;
+}
+
+/* Contenedor de iconos */
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.successIcon {
+  width: 70px;
+  height: 70px;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.3);
+  animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Acciones del Modal */
+.modalActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* Botones del Modal */
+.modalButton {
+  padding: 12px 28px;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 120px;
+}
+
+.modalButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modalButton:not(:disabled):hover {
+  transform: translateY(-2px);
+}
+
+/* Variantes de botones */
+.modalButton.primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+}
+
+.modalButton.primary:not(:disabled):hover {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.modalButton.success {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+}
+
+.modalButton.success:not(:disabled):hover {
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.4);
+}
+
+.modalButton.danger {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+}
+
+.modalButton.danger:not(:disabled):hover {
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+.modalButton.secondary {
+  background: #e5e7eb;
+  color: #374151;
+}
+
+.modalButton.secondary:not(:disabled):hover {
+  background: #d1d5db;
+}
+
+/* Tipos de Modal */
+.modal.success .modalTitle {
+  color: #2d7a3e;
+}
+
+.modal.error .modalTitle {
+  color: #dc2626;
+}
+
+.modal.warning .modalTitle {
+  color: #f59e0b;
+}
+
+/* Información adicional en modales */
+.infoValidacion {
+  background: #f9fafb;
+  border-radius: 8px;
+  padding: 16px;
+  margin: 16px 0;
+  border: 1px solid #e5e7eb;
+}
+
+.infoValidacion p {
+  margin: 8px 0;
+  font-size: 14px;
+  color: #374151;
+  display: flex;
+  justify-content: space-between;
+}
+
+.infoValidacion strong {
+  color: #1f2937;
+  margin-right: 8px;
+}
+
+/* Mensajes de advertencia */
+.advertencia {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 0 0 16px 0;
+  text-align: center;
+  font-weight: 600;
+  color: #856404;
+  font-size: 14px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .modal {
+    padding: 24px;
+  }
+
+  .modal.small,
+  .modal.medium,
+  .modal.large {
+    max-width: 95%;
+  }
+
+  .modalTitle {
+    font-size: 20px;
+  }
+
+  .modalMessage {
+    font-size: 14px;
+  }
+
+  .modalButton {
+    min-width: 100px;
+    padding: 10px 20px;
+  }
+
+  .successIcon {
+    width: 60px;
+    height: 60px;
+    font-size: 36px;
+  }
+
+  .modalActions {
+    flex-direction: column;
+  }
+
+  .modalButton {
+    width: 100%;
+  }
+}

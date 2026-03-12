@@ -1,0 +1,108 @@
+# Docker Compose para OptimizaRutas
+# Incluye: OSRM, Backend FastAPI y Frontend Next.js
+
+services:
+  # Servidor OSRM para cálculo de rutas
+  osrm:
+    image: osrm/osrm-backend
+    container_name: optimarutas-osrm
+    command: osrm-routed /data/chile-latest.osrm
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./osrm_data:/data
+    restart: unless-stopped
+    networks:
+      - optimarutas-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:5000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: optimarutas-backend
+    user: "0:0"  # Ejecutar como root para evitar problemas de permisos con volúmenes en Windows
+    ports:
+      - "0.0.0.0:8000:8000"
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4 --timeout-keep-alive 75
+    environment:
+      # Configuración general
+      - APP_NAME=OptimizaRutas
+      - DEBUG=True
+      # Seguridad JWT
+      - SECRET_KEY=change-this-secret-key-in-production-use-random-string
+      - ALGORITHM=HS256
+      - ACCESS_TOKEN_EXPIRE_MINUTES=60
+      # CORS
+      - CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000,http://frontend:3000,http://192.168.1.14:3000
+      # Base de datos (archivos)
+      - DATA_DIR=data
+      - USERS_FILE=usuarios_sistema.xlsx
+      - MAESTRO_FILE=Maestro APP.csv
+      # OSRM Server
+      - OSRM_URL=http://osrm:5000
+      - OSRM_DELAY_SECONDS=0.1
+      # Email (opcional)
+      - EMAIL_ADMIN=${EMAIL_ADMIN:-admin@optimarutas.com}
+      - SMTP_SERVER=${SMTP_SERVER:-smtp.gmail.com}
+      - SMTP_PORT=${SMTP_PORT:-587}
+      - EMAIL_SENDER=${EMAIL_SENDER:-}
+      - EMAIL_PASSWORD=${EMAIL_PASSWORD:-}
+    volumes:
+      # Montar carpeta de datos para persistencia
+      - ./backend/data:/app/data
+    depends_on:
+      - osrm
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 1.5G
+        reservations:
+          memory: 512M
+    networks:
+      - optimarutas-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Next.js
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        NEXT_PUBLIC_API_URL: "http://192.168.1.14:8000"
+    container_name: optimarutas-frontend
+    ports:
+      - "0.0.0.0:3000:3000"
+    environment:
+      - NEXT_PUBLIC_API_URL=http://192.168.1.14:8000
+      - NODE_ENV=production
+    depends_on:
+      - backend
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+        reservations:
+          memory: 256M
+    networks:
+      - optimarutas-network
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+networks:
+  optimarutas-network:
+    driver: bridge
+    name: optimarutas-network

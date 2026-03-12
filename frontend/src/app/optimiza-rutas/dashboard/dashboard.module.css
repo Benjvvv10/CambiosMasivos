@@ -1,0 +1,613 @@
+/**
+ * Estilos del Dashboard - Ranking de Optimización
+ */
+
+.container {
+  min-height: 100vh;
+  background: var(--color-background);
+  width: 100%;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: var(--color-text-secondary);
+}
+
+/* Header */
+.header {
+  background: var(--color-surface);
+  box-shadow: var(--shadow-sm);
+  padding: 16px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 64px;
+}
+
+.headerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.buttonPlaceholder {
+  width: 84px;
+  /* Espacio reservado para botón futuro, mismo ancho que volverButton */
+}
+
+.headerTitles {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  display: inline;
+}
+
+.userSeparator {
+  font-size: 14px;
+  color: #666;
+  display: inline;
+}
+
+.userRole {
+  font-size: 14px;
+  color: #666;
+  display: inline;
+}
+
+.logoutButton {
+  padding: 8px 16px;
+  background: #ff4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.logoutButton:hover {
+  background: #cc0000;
+}
+
+/* Nav Bar */
+.navBar {
+  display: flex;
+  align-items: center;
+  margin-bottom: -8px;
+}
+
+.volverButton {
+  padding: 7px 16px;
+  background: white;
+  color: #2d7a3e;
+  border: 1.5px solid #2d7a3e;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.volverButton:hover {
+  background: #2d7a3e;
+  color: white;
+}
+
+/* Main Content */
+.main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.welcomeCard {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  padding: 20px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+}
+
+.welcomeCard h2 {
+  font-size: 22px;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.welcomeCard p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* Error Card */
+.errorCard {
+  background: var(--color-error-light);
+  border: 1px solid #fcc;
+  color: #c00;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+/* Filtros */
+.filtersCard {
+  background: white;
+  padding: 16px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.filtersGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 16px;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filterGroup label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.filterSelect {
+  padding: 8px 10px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 13px;
+  background: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.filterSelect:hover {
+  border-color: #2d7a3e;
+}
+
+.filterSelect:focus {
+  outline: none;
+  border-color: #2d7a3e;
+  box-shadow: 0 0 0 3px rgba(45, 122, 62, 0.1);
+}
+
+/* Métricas */
+.metricsGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 10px;
+}
+
+.metricCard {
+  background: white;
+  padding: 12px 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 70px;
+}
+
+.metricCard:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-hover);
+}
+
+.metricHighlight {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+}
+
+.metricValue {
+  font-size: 18px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.metricHighlight .metricValue {
+  color: white;
+}
+
+.metricPercentage {
+  font-size: 16px;
+  font-weight: 600;
+  margin-left: 6px;
+  opacity: 0.9;
+}
+
+.metricLabel {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.metricHighlight .metricLabel {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+/* Tabla */
+.tableCard {
+  background: white;
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tableCard h3 {
+  font-size: 18px;
+  margin-bottom: 16px;
+  color: #333;
+  font-weight: 600;
+}
+
+.tableWrapper {
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  max-height: 450px;
+}
+
+/* Scrollbar personalizada verde para tabla */
+.tableWrapper::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1a4d2e 0%, #143a24 100%);
+}
+
+/* Para Firefox */
+.tableWrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #2d7a3e #f1f1f1;
+}
+
+.rankingTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.rankingTable thead {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.rankingTable th {
+  padding: 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+/* Destacar columna KM Validado con fondo más claro */
+.rankingTable th:nth-child(8) {
+  background: rgba(255, 255, 255, 0.15);
+  font-weight: 700;
+}
+
+/* Columnas ordenables */
+.sortableColumn {
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.sortableColumn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+.sortableColumn:active {
+  opacity: 0.8;
+}
+
+.sortIndicator {
+  font-size: 12px;
+  margin-left: 4px;
+  color: white;
+  font-weight: 700;
+}
+
+.rankingTable tbody tr {
+  border-bottom: 1px solid var(--color-border);
+  transition: background-color var(--transition-base);
+  position: relative;
+}
+
+.rankingTable tbody tr:nth-child(even) {
+  background-color: var(--color-mint-subtle);
+}
+
+.rankingTable tbody tr:hover {
+  background-color: var(--color-mint-light) !important;
+}
+
+.rankingTable tbody tr:last-child {
+  border-bottom: none;
+}
+
+.clickableRow {
+  cursor: pointer;
+}
+
+.clickableRow:hover {
+  background-color: var(--color-mint-light) !important;
+  box-shadow: var(--shadow-md);
+}
+
+.rankingTable td {
+  padding: 6px 10px;
+  color: #333;
+  font-size: 13px;
+}
+
+.vendedorName {
+  font-weight: 600;
+  color: #333;
+}
+
+.percentageBadge {
+  display: inline-block;
+  padding: 3px 8px;
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+  color: white;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 12px;
+  width: 65px;
+  text-align: center;
+}
+
+.percentageHigh {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+}
+
+.percentageGood {
+  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+}
+
+/* Eliminado statusCircle - ahora se usa barra lateral en hover */
+
+.noData {
+  text-align: center;
+  padding: 40px !important;
+  color: var(--color-text-muted);
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .headerContent {
+    flex-direction: column;
+    gap: 16px;
+    align-items: stretch;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .userInfo {
+    justify-content: space-between;
+  }
+
+  .main {
+    padding: 16px;
+  }
+
+  .welcomeCard h2 {
+    font-size: 22px;
+  }
+
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  .metricCard {
+    padding: 16px 12px;
+  }
+
+  .metricValue {
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+
+  .metricPercentage {
+    font-size: 13px;
+  }
+
+  .metricLabel {
+    font-size: 12px;
+  }
+
+  /* Tabla responsive con cards en móvil */
+  .rankingTable thead {
+    display: none;
+  }
+
+  .rankingTable,
+  .rankingTable tbody,
+  .rankingTable tr,
+  .rankingTable td {
+    display: block;
+  }
+
+  .rankingTable tr {
+    margin-bottom: 16px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 12px;
+    background: white;
+  }
+
+  .rankingTable td {
+    padding: 8px 0;
+    border: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .rankingTable td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: #333;
+  }
+
+  .rankingTable td:last-child {
+    border-bottom: none;
+  }
+
+  .welcomeCard {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .metricsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+
+  .metricCard {
+    padding: 12px 8px;
+  }
+
+  .metricValue {
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .metricPercentage {
+    font-size: 12px;
+  }
+
+  .metricLabel {
+    font-size: 11px;
+  }
+  
+  .filtersGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .main {
+    padding: 12px;
+    gap: 16px;
+  }
+
+  .welcomeCard {
+    padding: 20px;
+  }
+
+  .welcomeCard h2 {
+    font-size: 20px;
+  }
+
+  .welcomeCard p {
+    font-size: 14px;
+  }
+}
+
+/* Botón Guardar Rutas */
+.guardarButton {
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.3);
+}
+
+.guardarButton:hover {
+  background: linear-gradient(135deg, #1a4d2e 0%, #0d2617 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(45, 122, 62, 0.4);
+}
+
+.guardarButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(45, 122, 62, 0.3);
+}

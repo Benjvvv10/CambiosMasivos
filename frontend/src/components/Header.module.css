@@ -1,0 +1,98 @@
+/**
+ * Estilos del Header Global
+ */
+
+.header {
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 12px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 60px;
+}
+
+.headerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.buttonPlaceholder {
+  width: 84px;
+  /* Espacio reservado para mantener alineación consistente */
+}
+
+.volverButton {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 70px;
+}
+
+.volverButton:hover {
+  background: linear-gradient(135deg, #1a4d2e 0%, #0d2617 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(45, 122, 62, 0.3);
+}
+
+.headerTitles {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.headerSecondary {
+  font-size: 14px;
+  font-weight: 500;
+  color: #666;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.headerSecondary .code {
+  font-weight: 600;
+  color: #333;
+}
+
+.headerSecondary .separator {
+  color: #999;
+  font-weight: 400;
+}
+
+.headerSecondary .name {
+  font-weight: 600;
+  color: #333;
+}
+
+.headerSecondary .day {
+  font-weight: 600;
+  color: #333;
+}

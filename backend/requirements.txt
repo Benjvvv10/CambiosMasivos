@@ -1,0 +1,31 @@
+# Backend dependencies
+fastapi>=0.115.0
+uvicorn[standard]>=0.32.0
+pydantic>=2.10.0
+pydantic-settings>=2.6.0
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Data processing
+pandas>=2.2.0
+openpyxl>=3.1.5
+xlrd>=2.0.1
+numpy>=1.26.0
+
+# PDF generation
+reportlab>=4.0.0
+
+# HTTP requests
+requests==2.31.0
+httpx==0.26.0
+
+# Geometry
+polyline==2.0.0
+geopy==2.4.1
+
+# Timezone
+pytz>=2024.1
+
+# CORS
+python-dotenv==1.0.0

@@ -1,0 +1,1965 @@
+/**
+ * Estilos para la página de visualización de mapa de rutas
+ */
+
+.container {
+  min-height: 100vh;
+  background: var(--color-mint-subtle, #f0fdf4);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Efecto blur para el contenido cuando el modal de edición está abierto */
+.contentBlurred {
+  filter: blur(3px);
+  pointer-events: none;
+  transition: filter 0.3s ease;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 18px;
+  color: #666;
+}
+
+.errorCard {
+  background: #fee;
+  border: 1px solid #fcc;
+  color: #c00;
+  padding: 20px;
+  border-radius: 8px;
+  margin: 20px;
+  text-align: center;
+}
+
+/* Header */
+.header {
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 12px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  min-height: 60px;
+}
+
+.headerContent {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.headerTitles {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.headerSecondary {
+  font-size: 14px;
+  font-weight: 600;
+  color: #444;
+  white-space: nowrap;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  line-height: 1.4;
+}
+
+.userName {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  display: inline;
+}
+
+.userSeparator {
+  font-size: 14px;
+  color: #666;
+  display: inline;
+}
+
+.userRole {
+  font-size: 14px;
+  color: #666;
+  display: inline;
+}
+
+.volverButton {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  white-space: nowrap;
+}
+
+.volverButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(45, 122, 62, 0.3);
+}
+
+/* Grid de rutas del vendedor */
+.rutasGrid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+  padding: 12px 16px;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;
+  width: 100%;
+}
+
+@media (max-width: 1400px) {
+  .rutasGrid {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .rutasGrid {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Tarjeta no seleccionada: tema gris */
+.rutaCard {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: var(--radius-md, 10px);
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1 1 0;
+  min-width: 140px;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .rutaCard {
+    max-width: 100%;
+  }
+}
+
+.rutaCard:hover:not(.rutaCardActive) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: #d1d5db;
+}
+
+/* Tarjeta seleccionada: mismo fondo que no seleccionado, solo borde verde */
+.rutaCardActive {
+  background: #ffffff;
+  color: inherit;
+  border: 2px solid #166534;
+  box-shadow: 0 4px 12px rgba(22, 101, 52, 0.2);
+}
+
+/* Header: gris cuando no seleccionado */
+.rutaCardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  background: #f3f4f6;
+  border-bottom: none;
+}
+
+.rutaCardActive .rutaCardHeader {
+  background: #166534;
+}
+
+.rutaDia {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #374151;
+}
+
+.rutaCardActive .rutaDia {
+  color: #ffffff;
+}
+
+.rutaFecha {
+  font-size: 9px;
+  opacity: 0.8;
+}
+
+/* Body: mismo fondo en seleccionado y no seleccionado */
+.rutaCardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 10px;
+  background: #ffffff;
+}
+
+.rutaCardActive .rutaCardBody {
+  background: #ffffff;
+}
+
+.rutaMetric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 6px;
+  background: #f9fafb;
+}
+
+.rutaCardActive .rutaMetric {
+  background: #f9fafb;
+  padding: 4px 8px;
+}
+
+.rutaMetricLabel {
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  color: #6b7280;
+}
+
+.rutaMetricValue {
+  font-size: 11px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.rutaCardActive .rutaMetricLabel {
+  color: #6b7280;
+}
+
+.rutaCardActive .rutaMetricValue {
+  color: #1f2937;
+}
+
+/* Footer: diferencia/porcentaje a la izquierda, X Clientes a la derecha; fondo un poco más claro */
+.rutaCardFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 10px;
+  border-top: 1px solid #e5e7eb;
+  font-size: 10px;
+  font-weight: 600;
+  background: #fafbfc;
+}
+
+.rutaCardActive .rutaCardFooter {
+  border-top: 1px solid #e5e7eb;
+  background: #fafbfc;
+}
+
+.rutaAhorro {
+  color: #166534;
+  font-weight: 600;
+}
+
+.rutaAhorroHigh {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+.rutaCardActive .rutaAhorro {
+  color: #166534;
+  font-weight: 700;
+}
+
+.rutaCardActive .rutaAhorroHigh {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.rutaClientes {
+  color: #166534;
+  opacity: 0.95;
+}
+
+.rutaCardActive .rutaClientes {
+  color: #166534;
+  opacity: 1;
+}
+
+/* Barra de métricas (deprecado - mantener para compatibilidad) */
+.metricsBar {
+  background: white;
+  padding: 20px 24px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+}
+
+.metricItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 20px;
+  border-radius: 8px;
+  background: #f8f9fa;
+}
+
+.metricHighlight {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+}
+
+.metricLabel {
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.metricHighlight .metricLabel {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.metricValue {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+}
+
+.metricHighlight .metricValue {
+  color: white;
+}
+
+/* Contenedor de mapas */
+.mapsContainer {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px 16px;
+  align-items: start;
+  max-width: 1800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.mapWrapper {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: var(--radius-lg, 12px);
+  box-shadow: var(--shadow-md, 0 2px 8px rgba(0, 0, 0, 0.1));
+  overflow: hidden;
+  height: 100%;
+  transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.mapTitle {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 12px;
+  margin: 0;
+  background: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+  color: #333;
+  text-align: center;
+}
+
+.mapContainer {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+}
+
+@media (min-width: 1400px) {
+  .mapContainer {
+    height: 400px;
+  }
+}
+
+@media (min-width: 1800px) {
+  .mapContainer {
+    height: 450px;
+  }
+}
+
+/* Botón para centrar mapa */
+.centerButton {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  z-index: 1000;
+  background: white;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s;
+}
+
+.centerButton:hover {
+  background: #f0f0f0;
+  transform: scale(1.1);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.centerButton:active {
+  transform: scale(0.95);
+}
+
+.mapStats {
+  padding: 12px 16px;
+  background: #f8f9fa;
+  border-top: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  font-size: 13px;
+  color: #666;
+  font-weight: 500;
+}
+
+.mapStats span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Tablas de distancias */
+.tableContainer {
+  padding: 16px;
+  background: white;
+  border-top: 2px solid #e0e0e0;
+}
+
+.tableHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  min-height: 32px;
+}
+
+.tableTitle {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  line-height: 32px;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  max-height: 600px;
+  overflow-y: auto;
+  position: relative;
+}
+
+/* Scrollbar personalizada verde */
+.tableWrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.tableWrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.tableWrapper::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1a4d2e 0%, #143a24 100%);
+}
+
+/* Para Firefox */
+.tableWrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #2d7a3e #f1f1f1;
+}
+
+.distanceTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.distanceTable thead {
+  background: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.distanceTable th {
+  padding: 8px 6px;
+  text-align: left;
+  font-weight: 600;
+  color: #555;
+  border-bottom: 2px solid #e0e0e0;
+  white-space: nowrap;
+  font-size: 11px;
+  background: #f8f9fa;
+}
+
+.distanceTable tbody tr {
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.2s;
+}
+
+.distanceTable tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.distanceTable td {
+  padding: 8px 6px;
+  color: #666;
+  font-size: 12px;
+}
+
+/* Columnas de distancia más compactas */
+.distanceTable th.distanceCol,
+.distanceTable td.distanceCol {
+  width: 85px;
+  max-width: 85px;
+  text-align: left;
+  padding: 8px 4px;
+}
+
+.distanceTable th.distanceCol {
+  font-size: 11px;
+  line-height: 1.3;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
+.oficinaRow {
+  background-color: #fef3c7;
+  font-weight: 600;
+}
+
+.highlightedRow {
+  background-color: #e0f2fe !important;
+  animation: highlightFade 3s ease-out forwards;
+}
+
+/* Botón Excel */
+.excelButton {
+  padding: 6px 12px;
+  background: #2D7A3E;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(45, 122, 62, 0.3);
+}
+
+.excelButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.4);
+}
+
+.excelButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+@keyframes highlightFade {
+  0% {
+    background-color: #7dd3fc;
+  }
+  100% {
+    background-color: #e0f2fe;
+  }
+}
+
+.distanceTable tbody tr {
+  cursor: pointer;
+}
+
+.oficinaRow:hover {
+  background-color: #fde68a !important;
+}
+
+/* Menú flotante de navegación rápida */
+.quickNavMenu {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  padding: 8px;
+  display: none; /* Oculto por defecto en desktop */
+  gap: 8px;
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s, visibility 0.3s;
+  pointer-events: none;
+}
+
+.quickNavMenu.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+
+.quickNavButton {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.quickNavButtonSap {
+  background: #fee2e2;
+  color: #991b1b;
+  border: 2px solid #fca5a5;
+}
+
+.quickNavButtonSap:hover {
+  background: #fecaca;
+  transform: translateY(-1px);
+}
+
+.quickNavButtonOpt {
+  background: #d1fae5;
+  color: #065f46;
+  border: 2px solid #6ee7b7;
+}
+
+.quickNavButtonOpt:hover {
+  background: #a7f3d0;
+  transform: translateY(-1px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .mapsContainer {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .mapContainer {
+    min-height: 400px;
+  }
+}
+
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .volverButton {
+    width: 100%;
+    order: -1;
+  }
+
+  .header h1 {
+    font-size: 20px;
+  }
+
+  .vendedorInfo {
+    font-size: 14px;
+  }
+
+  .subtitle {
+    font-size: 13px;
+  }
+
+  .metricsBar {
+    padding: 12px;
+    gap: 10px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .metricItem {
+    padding: 12px 10px;
+    flex: none;
+  }
+
+  .metricLabel {
+    font-size: 11px;
+  }
+
+  .metricValue {
+    font-size: 15px;
+  }
+
+  .mapsContainer {
+    padding: 16px;
+    gap: 16px;
+  }
+
+  .mapContainer {
+    min-height: 350px;
+  }
+
+  .mapTitle {
+    font-size: 16px;
+    padding: 12px 16px;
+  }
+
+  .tableContainer {
+    padding: 16px;
+  }
+
+  .quickNavMenu {
+    top: 60px;
+    padding: 6px;
+    gap: 6px;
+    width: calc(100% - 32px);
+    max-width: 400px;
+    display: flex; /* Solo visible en móvil */
+  }
+
+  .quickNavButton {
+    padding: 8px 16px;
+    font-size: 12px;
+    flex: 1;
+  }
+}
+
+/* Botón Editar Ruta */
+.editButton {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
+}
+
+.editButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
+}
+
+.editButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Botón de Validar Ruta */
+.validateButton {
+  padding: 6px 12px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+}
+
+.validateButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.validateButton:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal de Error de Validación */
+.modalError {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+.modalError h3 {
+  color: #dc2626;
+  margin-bottom: 12px;
+  font-size: 18px;
+}
+
+.errorMessage {
+  color: #666;
+  margin-bottom: 16px;
+  line-height: 1.5;
+  font-size: 13px;
+}
+
+.btnCerrarError {
+  padding: 8px 20px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnCerrarError:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+}
+
+.warningText {
+  color: #f59e0b;
+  background: #fef3c7;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 12px 0;
+  font-size: 13px;
+}
+
+.infoValidacion {
+  background: #f3f4f6;
+  padding: 12px;
+  border-radius: 6px;
+  margin: 12px 0;
+  text-align: left;
+}
+
+.infoValidacion p {
+  margin: 6px 0;
+  color: #374151;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Modal de Edición */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 20px;
+}
+
+.modalEdicion {
+  background: white;
+  border-radius: 12px;
+  width: 95%;
+  max-width: 1600px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  overflow: hidden;
+}
+
+.modalHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 24px;
+  border-bottom: 2px solid #e0e0e0;
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: white;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.modalClose {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 20px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.modalClose:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: rotate(90deg);
+}
+
+.modalInfo {
+  background: #e0f2fe;
+  border: 2px solid #0ea5e9;
+  color: #075985;
+  padding: 12px 20px;
+  margin: 0 30px 20px 30px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.modalAlert {
+  background: #fef3c7;
+  border: 2px solid #fbbf24;
+  color: #92400e;
+  padding: 12px 20px;
+  margin: 0 30px 20px 30px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modalContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 20px 30px;
+  flex: 1;
+  overflow: hidden;
+}
+
+.modalMapSection,
+.modalTableSection {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+
+.modalMapSection h3,
+.modalTableSection h3 {
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #333;
+}
+
+.instruccion {
+  margin: 0 0 12px 0;
+  font-size: 13px;
+  color: #666;
+  font-style: italic;
+}
+
+.modalMapContainer {
+  flex: 1;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.modalMapContainer .centerButton {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  z-index: 1000;
+}
+
+.modalTableWrapper {
+  flex: 1;
+  overflow-y: auto;
+  border-radius: 8px;
+  border: 1px solid #e0e0e0;
+}
+
+/* Scrollbar personalizada verde para la tabla del modal */
+.modalTableWrapper::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.modalTableWrapper::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.modalTableWrapper::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+.modalTableWrapper::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #1a4d2e 0%, #143a24 100%);
+}
+
+/* Para Firefox */
+.modalTableWrapper {
+  scrollbar-width: thin;
+  scrollbar-color: #2d7a3e #f1f1f1;
+}
+
+.editTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+}
+
+.editTable thead {
+  background: #f8f9fa;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.editTable th {
+  padding: 8px 6px;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid #e0e0e0;
+  font-size: 11px;
+}
+
+.editTable td {
+  padding: 6px;
+  border-bottom: 1px solid #f0f0f0;
+  font-size: 11px;
+}
+
+.editTable tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.dragHandle {
+  cursor: grab;
+  color: #999;
+  font-size: 16px;
+  user-select: none;
+  padding: 4px 8px;
+  display: inline-block;
+  transition: color 0.2s ease;
+  line-height: 1;
+}
+
+.dragHandle:hover {
+  color: #14b8a6;
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.coordInput {
+  width: 100%;
+  padding: 4px 6px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: inherit;
+  transition: border-color 0.2s ease;
+}
+
+.coordInput:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.modalFooter {
+  padding: 16px 24px;
+  border-top: 2px solid #e0e0e0;
+  background: #f8f9fa;
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 60px;
+  align-items: center;
+}
+
+.botonesIzquierda,
+.botonesDerecha {
+  display: flex;
+  gap: 12px;
+}
+
+.btnCancelar,
+.btnAplicar,
+.btnGuardarRutaEdicion,
+.btnDescargar,
+.btnCerrar,
+.btnRestablecer {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-width: 140px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnRestablecer {
+  background: #f59e0b;
+  color: white;
+}
+
+.btnRestablecer:hover:not(:disabled) {
+  background: #d97706;
+}
+
+.btnRestablecer:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnRestablecerOriginal {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background: #dc2626;
+  color: white;
+  min-width: 140px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnRestablecerOriginal:hover:not(:disabled) {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+}
+
+.btnRestablecerOriginal:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnRestablecerIndividual {
+  background: #f59e0b;
+  color: white;
+  border: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+}
+
+.btnRestablecerIndividual:hover {
+  background: #ea580c;
+  transform: scale(1.1);
+}
+
+.btnCancelar {
+  background: #e5e7eb;
+  color: #374151;
+  min-width: 140px;
+}
+
+.btnCancelar:hover {
+  background: #d1d5db;
+}
+
+.btnAplicar {
+  background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(20, 184, 166, 0.3);
+}
+
+.btnAplicar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(20, 184, 166, 0.4);
+}
+
+.btnAplicar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnDescargar {
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(45, 122, 62, 0.3);
+  min-width: 140px;
+}
+
+.btnDescargar:hover {
+  background: linear-gradient(135deg, #1a4d2e 0%, #0f2e1a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.4);
+}
+
+.btnCerrar {
+  background: #6b7280;
+  color: white;
+  min-width: 140px;
+}
+
+.btnCerrar:hover {
+  background: #4b5563;
+  transform: translateY(-2px);
+}
+
+.resultadoBanner {
+  padding: 8px 20px;
+  background: #f0fdf4;
+  border-top: 2px solid #e0e0e0;
+}
+
+.resultadoBanner h4 {
+  margin: 0 0 6px 0;
+  color: #000;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.resultadoContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.resultadoInfo {
+  flex: 1;
+}
+
+.resultadoInfo h4 {
+  margin: 0 0 8px 0;
+  color: #000;
+  font-size: 14px;
+}
+
+.metricas {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.metrica {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex: 1;
+}
+
+.metrica .label {
+  font-size: 11px;
+  color: #666;
+  font-weight: 500;
+}
+
+.metrica .valor {
+  font-size: 16px;
+  font-weight: 700;
+  color: #333;
+}
+
+.metrica .mejor {
+  color: #10b981;
+}
+
+.metrica .peor {
+  color: #ef4444;
+}
+
+.botonesResultado {
+  display: flex;
+  gap: 12px;
+}
+
+/* Botón Guardar Ruta (deprecado - mantener para compatibilidad) */
+.btnGuardar {
+  padding: 6px 14px;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 140px;
+  max-width: 140px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btnGuardar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.4);
+}
+
+.btnGuardar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Modal de Confirmación */
+.modalConfirmacion {
+  background: white;
+  border-radius: 12px;
+  padding: 32px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modalConfirmacion h3 {
+  margin: 0 0 16px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+  text-align: center;
+}
+
+.mensajeConfirmacion {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 20px 0;
+  text-align: center;
+}
+
+.advertencia {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 0 0 24px 0;
+  text-align: center;
+  font-weight: 600;
+  color: #856404;
+}
+
+.botonesConfirmacion {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.btnCancelarConfirmacion {
+  padding: 12px 24px;
+  background: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btnCancelarConfirmacion:hover:not(:disabled) {
+  background: #d1d5db;
+}
+
+.btnCancelarConfirmacion:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnConfirmarGuardado {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btnConfirmarGuardado:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.4);
+}
+
+.btnConfirmarGuardado:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btnConfirmarRestablecer {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btnConfirmarRestablecer:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.4);
+}
+
+.btnConfirmarRestablecer:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Botón Guardar Ruta en Modal de Edición - Azul */
+.btnGuardarRutaEdicion {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: white;
+  box-shadow: 0 2px 8px rgba(14, 165, 233, 0.3);
+}
+
+/* Botón de confirmar validación */
+.btnConfirmar {
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-width: 140px;
+}
+
+.btnConfirmar:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+}
+
+.btnConfirmar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Contenedor de acciones para modales */
+.modalActions {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.modalActions .btnCancelar {
+  padding: 12px 24px;
+  background: #e5e7eb;
+  color: #374151;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  min-width: 140px;
+}
+
+.modalActions .btnCancelar:hover {
+  background: #d1d5db;
+}
+
+/* Modal de Éxito */
+.modalExito {
+  background: white;
+  border-radius: 12px;
+  padding: 40px 32px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  animation: modalSlideIn 0.3s ease-out;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.iconoExito {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 24px;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.3);
+  animation: successPulse 0.6s ease-out;
+}
+
+@keyframes successPulse {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.modalExito h3 {
+  margin: 0 0 12px 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+.mensajeExito {
+  font-size: 16px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 24px 0;
+}
+
+.btnCerrarExito {
+  padding: 12px 32px;
+  background: linear-gradient(135deg, #2d7a3e 0%, #1a4d2e 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  width: 100%;
+}
+
+.btnCerrarExito:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(45, 122, 62, 0.4);
+}
+
+@media (max-width: 1024px) {
+  .modalContent {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .modalMapSection,
+  .modalTableSection {
+    max-height: 400px;
+  }
+}
+
+/* Estilos específicos para móvil */
+@media (max-width: 768px) {
+  .modalOverlay {
+    padding: 0;
+    align-items: stretch;
+  }
+
+  .modalEdicion {
+    width: 100%;
+    height: 100vh;
+    max-width: 100%;
+    border-radius: 0;
+  }
+
+  .modalHeader {
+    padding: 16px;
+  }
+
+  .modalHeader h2 {
+    font-size: 18px;
+  }
+
+  .modalClose {
+    width: 32px;
+    height: 32px;
+    font-size: 20px;
+  }
+
+  .modalContent {
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .modalMapSection h3,
+  .modalTableSection h3 {
+    font-size: 16px;
+  }
+
+  .instruccion {
+    font-size: 12px;
+  }
+
+  .modalMapSection,
+  .modalTableSection {
+    max-height: none;
+  }
+
+  .modalMapContainer {
+    height: 250px;
+    min-height: 250px;
+  }
+
+  .modalTableWrapper {
+    max-height: 300px;
+  }
+
+  .editTable {
+    font-size: 12px;
+  }
+
+  .editTable th,
+  .editTable td {
+    padding: 8px 4px;
+  }
+
+  .dragHandle {
+    font-size: 14px;
+    padding: 4px;
+  }
+
+  .coordInput {
+    font-size: 12px;
+    padding: 4px 6px;
+  }
+
+  .modalFooter {
+    padding: 8px;
+    flex-direction: column;
+    gap: 6px;
+    position: sticky;
+    bottom: 0;
+    background: #f8f9fa;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 20;
+  }
+
+  .botonesIzquierda,
+  .botonesDerecha {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .btnCancelar,
+  .btnAplicar,
+  .btnDescargar,
+  .btnCerrar,
+  .btnRestablecer,
+  .btnGuardar {
+    flex: 1;
+    min-width: calc(50% - 3px);
+    padding: 10px 8px;
+    font-size: 13px;
+  }
+
+  .resultadoBanner {
+    padding: 8px;
+    position: static;
+    margin-bottom: 8px;
+  }
+
+  .resultadoBanner h4 {
+    font-size: 12px;
+    margin: 0 0 4px 0;
+  }
+
+  .metricas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: space-between;
+  }
+
+  .metrica {
+    padding: 6px 8px;
+    background: white;
+    border-radius: 4px;
+    flex: 1;
+    min-width: calc(50% - 3px);
+  }
+
+  .metrica .label {
+    font-size: 9px;
+  }
+
+  .metrica .valor {
+    font-size: 13px;
+  }
+
+  /* Modal de confirmación en móvil */
+  .modalConfirmacion {
+    padding: 20px;
+    width: 95%;
+  }
+
+  .modalConfirmacion h3 {
+    font-size: 20px;
+  }
+
+  .mensajeConfirmacion {
+    font-size: 14px;
+  }
+
+  .botonesConfirmacion {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .btnCancelarConfirmacion,
+  .btnConfirmarGuardado,
+  .btnConfirmarRestablecer {
+    width: 100%;
+    padding: 12px;
+  }
+
+  /* Modal de éxito en móvil */
+  .modalExito {
+    padding: 30px 20px;
+    width: 95%;
+  }
+
+  .iconoExito {
+    width: 60px;
+    height: 60px;
+    font-size: 36px;
+    margin-bottom: 20px;
+  }
+
+  .modalExito h3 {
+    font-size: 20px;
+  }
+
+  .mensajeExito {
+    font-size: 14px;
+  }
+}
+
+/* Banner de Ruta Editada */
+.rutaEditadaBanner {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 2px solid #f59e0b;
+  border-radius: 12px;
+  margin: 20px 0;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.bannerContent {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.bannerIcon {
+  font-size: 32px;
+  flex-shrink: 0;
+}
+
+.bannerTexto {
+  flex: 1;
+}
+
+.bannerTexto strong {
+  font-size: 18px;
+  color: #92400e;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.bannerTexto p {
+  margin: 0;
+  color: #78350f;
+  font-size: 14px;
+}
+
+.btnRestaurar {
+  background: white;
+  color: #f59e0b;
+  border: 2px solid #f59e0b;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.btnRestaurar:hover {
+  background: #f59e0b;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+/* Botón Restablecer en Header del Mapa */
+.btnRestaurarHeader {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  background: white;
+  color: #f59e0b;
+  border: 2px solid #f59e0b;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.btnRestaurarHeader:hover {
+  background: #f59e0b;
+  color: white;
+  transform: translateY(-50%) translateY(-2px);
+  box-shadow: 0 4px 8px rgba(245, 158, 11, 0.3);
+}
+
+.btnRestaurarHeader:active {
+  transform: translateY(-50%);
+}
+
+/* Badge de Ruralidad */
+.ruralityBadge {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-right: 10px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  background: #f3f4f6;
+  color: #4b5563;
+  border: 1px solid #d1d5db;
+  cursor: help;
+  transition: all 0.2s ease;
+  vertical-align: middle;
+}
+
+.ruralityBadge:hover {
+  background: #e5e7eb;
+  border-color: #9ca3af;
+  color: #1f2937;
+}
